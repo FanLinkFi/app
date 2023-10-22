@@ -1,6 +1,6 @@
 import './globals.css'
 import { ReactElement } from 'react'
-import "../../styles/global.css";
+import '../../styles/global.css'
 
 const RootLayout = ({ children }: { children: ReactElement }) => (
   <html lang="en">

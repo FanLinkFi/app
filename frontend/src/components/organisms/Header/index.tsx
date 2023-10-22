@@ -11,7 +11,7 @@ const Header = ({ isCreator = false }: Props) => (
     <div className="flex items-center">
       {/* You can replace the <h6> with an <img> for your logo */}
       <h6 className="text-lg font-semibold">
-        <img src='/assets/logo.png' style={{width: "100px", cursor:"pointer"}} />
+        <img src="/assets/logo.png" style={{ width: '100px', cursor: 'pointer' }} />
       </h6>
 
       {!isCreator && (

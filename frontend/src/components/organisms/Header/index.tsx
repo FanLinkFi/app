@@ -11,12 +11,10 @@ type Props = {
 }
 
 const Header = ({ isCreator = false }: Props) => (
-  <Toolbar>
+  <Toolbar style={{position: "fixed", backgroundColor:"white", width: "100%", top: "0px"}}>
     <Box display="flex" alignItems="center">
       {/* You can replace the Typography component with an <img> for your logo */}
-      <Typography variant="h6" style={{ flexGrow: 1 }}>
-        Your App Logo
-      </Typography>
+      <Link href="/"><img src='/assets/logo.png' style={{width: "100px", cursor:"pointer"}} /></Link>
 
       {!isCreator && (
         <CustomTabs value="Browse" />

@@ -1,4 +1,6 @@
 'use client'
+import { Typography } from '@mui/material'
+
 
 import { GoogleLogin } from '@react-oauth/google'
 import { useRouter } from 'next/navigation'
@@ -11,7 +13,9 @@ export default function LoginPage() {
       display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'
     }}
     >
-      <h1>Login to Your Creator Account</h1>
+      <Typography variant="h3">Login to Your Creator Account</Typography>
+      <br />
+      <br />
       <GoogleLogin
         onSuccess={() => {
           router.push('/creator')

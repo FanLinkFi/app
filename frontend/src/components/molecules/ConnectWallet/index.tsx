@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { Button } from '@mui/material'
 import {
   AppConfig,
@@ -9,17 +10,19 @@ import {
 } from '@stacks/connect'
 import { useState, useEffect } from 'react'
 
-const ConnectWallet = () => {
-  const [message, setMessage] = useState('')
-  const [transactionId, setTransactionId] = useState('')
-  const [currentMessage, setCurrentMessage] = useState('')
+type Props = {
+  isCreator?: boolean,
+}
+
+const ConnectWallet = ({ isCreator = false }: Props) => {
+  const router = useRouter()
   const [userData, setUserData] = useState(undefined)
 
   const appConfig = new AppConfig(['store_write'])
   const userSession = new UserSession({ appConfig })
 
   const appDetails = {
-    name: 'Hello Stacks',
+    name: 'FanLink',
     icon: 'https://freesvg.org/img/1541103084.png'
   }
 
@@ -41,15 +44,18 @@ const ConnectWallet = () => {
     }
   }, [])
 
-  console.log(userData)
-
   return (
     <div>
-      {!userData && (
-      <Button variant="contained" color="primary" fullWidth onClick={connectWallet}>
-        Connect
-      </Button>
-      )}
+      {!userData ? (
+        <Button variant="contained" color="primary" fullWidth onClick={connectWallet}>
+          Connect
+        </Button>
+      )
+        : isCreator ? (<div>Connected</div>) : (
+          <button className="bg-blue-600 text-white rounded py-2 px-4 hover:bg-blue-700 mr-4" onClick={() => router.push('/fan/wallet')}>
+            My Wallet
+          </button>
+        )}
     </div>
   )
 }

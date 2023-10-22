@@ -1,9 +1,16 @@
 'use client'
 
+import { openContractCall } from '@stacks/connect'
 import {
-  Card, CardContent, CardActions, CardMedia, Button, Grid, Typography
-} from '@mui/material'
-import { Box } from '@mui/system'
+  AnchorMode,
+  broadcastTransaction,
+  bufferCVFromString,
+  FungibleConditionCode,
+  makeContractCall,
+  makeStandardSTXPostCondition,
+  stringUtf8CV
+} from '@stacks/transactions'
+import { StacksMainnet, StacksTestnet } from '@stacks/network'
 
 interface Video {
   id: string;
@@ -17,32 +24,41 @@ interface VideoGridProps {
   onMintClick?: (video: Video) => void;
 }
 
-const VideoGrid: React.FC<VideoGridProps> = ({ videos, onMintClick }) => (
-  <Grid container spacing={3}>
-    {videos.map((video) => (
-      <Grid item xs={12} sm={6} md={4} key={video.id}>
-        <Card>
-          <CardMedia
-            component="img"
-            height="200"
-            image={video.image}
-            alt={video.title}
-            title={video.title}
-          />
-          <CardContent>
-            <Typography variant="h6" component="div">
-              {video.title}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button variant="contained" color="primary" fullWidth onClick={() => onMintClick && onMintClick(video)}>
+const VideoGrid: React.FC<VideoGridProps> = ({ videos, onMintClick }) => {
+  async function buyNFT(video: string) {
+    const network = new StacksTestnet()
+
+    try {
+      const options = {
+        contractAddress: 'ST12KGMZCKXERR1VG1TFEQQZ3VQXSMVVC3J31S604',
+        contractName: 'nft-factory',
+        functionName: 'claim',
+        functionArgs: [],
+        network,
+        onFinish: ({ txId }) => console.log(txId)
+      }
+
+      await openContractCall(options)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      {videos.map((video) => (
+        <div key={video.id} className="rounded shadow-lg overflow-hidden">
+          <img src={video.image} alt={video.title} className="w-full h-48 object-cover" />
+          <div className="p-4">
+            <h6 className="font-semibold mb-2">{video.title}</h6>
+            <button onClick={() => buyNFT()} className="w-full py-2 px-4 bg-blue-600 text-white rounded mt-2 hover:bg-blue-700">
               Mint NFT
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    ))}
-  </Grid>
-)
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export default VideoGrid

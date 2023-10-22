@@ -1,20 +1,12 @@
 'use client'
 
-import {
-  List, ListItem, ListItemAvatar, Avatar, ListItemText, Typography, Box, IconButton, InputBase, Divider
-} from '@mui/material'
 import { faker } from '@faker-js/faker'
-import SendIcon from '@mui/icons-material/Send'
 import { useState } from 'react'
 
 interface Creator {
   id: string;
   name: string;
   avatarUrl: string;
-}
-
-interface CreatorsTabProps {
-  creators: Creator[];
 }
 
 // Generate a list of creators using faker
@@ -36,43 +28,37 @@ const CreatorsTab: React.FC = () => {
   const [selectedCreator, setSelectedCreator] = useState<Creator | null>(null)
 
   return (
-    <Box display="flex">
-      <List style={{ width: '300px', borderRight: '1px solid #e0e0e0' }}>
+    <div className="flex">
+      <ul className="w-72 border-r border-gray-200">
         {creators.map((creator) => (
-          <ListItem button key={creator.id} onClick={() => setSelectedCreator(creator)}>
-            <ListItemAvatar>
-              <Avatar src={creator.avatarUrl} alt={creator.name} />
-            </ListItemAvatar>
-            <ListItemText primary={creator.name} />
-          </ListItem>
+          <li key={creator.id} onClick={() => setSelectedCreator(creator)} className="cursor-pointer hover:bg-gray-100 px-4 py-2 flex items-center">
+            <img src={creator.avatarUrl} alt={creator.name} className="w-10 h-10 rounded-full mr-4" />
+            <span>{creator.name}</span>
+          </li>
         ))}
-      </List>
+      </ul>
 
       {selectedCreator && (
-        <Box flex="1" p={3}>
-          <Typography variant="h6">
+        <div className="flex-1 p-4">
+          <h6 className="font-semibold mb-4">
             Group Chat with
             {' '}
             {selectedCreator.name}
-          </Typography>
-          {/* This is a placeholder for the chat content. You can integrate a chat component here. */}
-          <Box mt={2} style={{ height: '400px', border: '1px solid #e0e0e0', borderRadius: '4px' }}>
-            <Box flexGrow={1} overflow="auto" mt={2} style={{ border: '1px solid #e0e0e0', borderRadius: '4px', padding: '8px' }}>
-              {/* Placeholder for chat messages */}
-            </Box>
-            <Divider />
-            <Box display="flex" alignItems="center" mt={2}>
-              <InputBase placeholder="Type your message…" style={{ flexGrow: 1, marginLeft: '8px' }} />
-              <IconButton color="primary" component="span">
-                <SendIcon />
-              </IconButton>
-            </Box>
-            {' '}
-
-          </Box>
-        </Box>
+          </h6>
+          <div className="border border-gray-200 rounded p-4 mb-4" style={{ height: '400px' }}>
+            {/* Placeholder for chat messages */}
+          </div>
+          <div className="border-t border-gray-200 pt-4 flex items-center">
+            <input type="text" placeholder="Type your message…" className="flex-grow px-4 py-2 mr-4 border rounded focus:outline-none focus:border-blue-500" />
+            <button className="bg-blue-600 text-white rounded p-2 hover:bg-blue-700">
+              <i className="fas fa-paper-plane" />
+              {' '}
+              {/* You can use Font Awesome or any other icon library */}
+            </button>
+          </div>
+        </div>
       )}
-    </Box>
+    </div>
   )
 }
 
